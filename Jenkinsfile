@@ -1,4 +1,4 @@
-@Library('libpipelines@fix/releaseChangelog2') _
+@Library('libpipelines@master') _
 
 hose {
     EMAIL = 'front'
