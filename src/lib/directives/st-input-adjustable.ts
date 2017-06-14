@@ -36,7 +36,7 @@ export class StInputAdjustable implements AfterViewInit {
       private renderer: Renderer
    ) {}
 
-   ngAfterViewInit() {
+   ngAfterViewInit(): void {
       this.ngModel.valueChanges.subscribe(value => {
          this.text = value || this.placeholder;
 

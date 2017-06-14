@@ -31,6 +31,7 @@ import { StEgeo, StRequired } from '../decorators/require-decorators';
 
 export const PAGETITLE_CONTROL_ACCESSOR: any = {
    provide: NG_VALUE_ACCESSOR,
+   // tslint:disable-next-line:no-use-before-declare
    useExisting: forwardRef(() => StPageTitleComponent),
    multi: true
 };

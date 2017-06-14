@@ -12,7 +12,6 @@ const gulpIf = require('gulp-if');
 const gulpPostCss = require('gulp-postcss');
 const gulpRunSequence = require('run-sequence');
 const gulpSass = require('gulp-sass');
-const gulpSourcemaps = require('gulp-sourcemaps');
 const removeHtmlComments = require('gulp-remove-html-comments');
 
 // There are no type definitions available for these imports.
@@ -42,11 +41,9 @@ export function tsBuildTask(tsConfigPath: string): any {
 export function sassBuildTask(dest: string, root: string, minify: boolean = false): any {
    return () => {
       return gulp.src(_globify(root, '**/*.scss'))
-         .pipe(gulpSourcemaps.init({ loadMaps: true }))
          .pipe(gulpSass().on('error', gulpSass.logError))
          .pipe(gulpPostCss([autoprefixer()]))
          .pipe(gulpIf(minify, gulpCleanCss()))
-         .pipe(gulpSourcemaps.write('.'))
          .pipe(gulp.dest(dest));
    };
 }

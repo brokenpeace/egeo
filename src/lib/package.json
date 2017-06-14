@@ -1,0 +1,45 @@
+{
+   "name": "@stratio/egeo",
+   "version": "0.0.0-PLACEHOLDER",
+   "description": "Stratio egeo library of components in Angular 2",
+   "main": "./bundles/egeo.umd.js",
+   "module": "./@stratio/egeo.es5.js",
+   "es2015": "./@stratio/egeo.js",
+   "typings": "./egeo.d.ts",
+   "repository": {
+      "type": "git",
+      "url": "https://github.com/Stratio/egeo.git"
+   },
+   "keywords": [
+      "angular",
+      "egeo",
+      "stratio",
+      "components",
+      "rollup",
+      "karma",
+      "gulp",
+      "webpack"
+   ],
+   "license": "MIT",
+   "bugs": {
+      "url": "https://github.com/Stratio/egeo/issues"
+   },
+   "homepage": "https://github.com/Stratio/egeo#readme",
+   "peerDependencies": {
+      "@angular/common": "~4.1.0",
+      "@angular/core": "~4.1.0",
+      "@angular/forms": "~4.1.0",
+      "@angular/http": "~4.1.0",
+      "@angular/platform-browser-dynamic": "~4.1.0",
+      "@angular/router": "~4.1.0",
+      "@stratio/egeo-theme": "~0.10.0",
+      "typescript": "~2.2.0"
+   },
+   "dependencies": {
+      "angular2-virtual-scroll": "0.1.5",
+      "lodash": "4.17.4",
+      "popper.js": "1.9.9",
+      "reflect-metadata": "0.1.10",
+      "tslib": "1.7.1"
+   }
+}

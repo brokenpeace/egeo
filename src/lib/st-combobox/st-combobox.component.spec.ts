@@ -243,7 +243,7 @@ describe('StCombobox', () => {
       fixture.detectChanges();
       expect(component.showError()).toBeTruthy();
 
-      component.onFocus();
+      component.onFocus(new Event('focus'));
       fixture.detectChanges();
       expect(component.showError()).toBeFalsy();
 
@@ -268,11 +268,11 @@ describe('StCombobox', () => {
       fixture.detectChanges();
       expect(component.showError()).toBeTruthy();
 
-      component.onFocus();
+      component.onFocus(new Event('focus'));
       fixture.detectChanges();
       expect(component.showError()).toBeFalsy();
 
-      component.onFocusOut();
+      component.onFocusOut(new Event('focusout'));
       fixture.detectChanges();
       expect(component.showError()).toBeTruthy();
    });
