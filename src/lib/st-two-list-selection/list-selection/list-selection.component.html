@@ -1,11 +1,24 @@
+<!--
+
+    Copyright (C) 2016 Stratio (http://stratio.com)
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
 <div class="list-selection">
    <p class="title sth-two-list__list-title" [ngClass]="{'sth-two-list__important-title': important}">{{title}}</p>
    <st-search class="search" *ngIf="hasSearch" [placeholder]="searchPlaceholder" [qaTag]="searchQaTag" (search)="search.emit($event)"></st-search>
-   <div class="list" [ngClass]="{'with-order': hasOrder}">
-      <virtual-scroll [items]="list" (update)="scrollItems = $event" [childHeight]="heightMode">
-         <list-item *ngFor="let item of scrollItems; let i = index" [item]="item" (selectItem)="selectItem.emit(item)" [qaTag]="listQaTag" [editable]="editable"
-             (selectExtraLabel)="selectExtraLabel.emit($event)" [mode]="mode"></list-item>
-      </virtual-scroll>
-   </div>
+   <list-scroll [list]="list" [mode]="mode" (selectItem)="selectItem.emit($event)" [qaTag]="listQaTag" [editable]="editable" [qaTag]="listQaTag" [editable]="editable"
+             (selectExtraLabel)="selectExtraLabel.emit($event)"></list-scroll>
    <st-dropdown *ngIf="hasOrder" class="orderCombo" button="Order" [items]="orderOptions" (change)="changeOrder.emit($event)"></st-dropdown>
 </div>

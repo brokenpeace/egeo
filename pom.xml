@@ -2,21 +2,30 @@
    xmlns="http://maven.apache.org/POM/4.0.0"
    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
    <modelVersion>4.0.0</modelVersion>
+
    <parent>
       <groupId>com.stratio</groupId>
       <artifactId>parent</artifactId>
-      <version>0.9.0</version>
+      <version>0.10.0-SNAPSHOT</version>
    </parent>
+
    <groupId>com.stratio.egeo</groupId>
    <artifactId>egeo</artifactId>
-   <version>2.3.0-SNAPSHOT</version>
+   <version>2.4.0-SNAPSHOT</version>
    <name>Egeo</name>
    <inceptionYear>2016</inceptionYear>
+
+   <issueManagement>
+      <system>GitHub</system>
+      <url>https://github.com/Stratio/egeo/issues</url>
+   </issueManagement>
+
    <properties>
       <nodeVer>v6.9.2</nodeVer>
       <npmVer>3.8.8</npmVer>
       <nodeURL>http://tools.stratio.com/buildtools</nodeURL>
    </properties>
+
    <build>
       <sourceDirectory>src</sourceDirectory>
       <testSourceDirectory>src</testSourceDirectory>
@@ -54,7 +63,7 @@
                   </goals>
                   <phase>generate-sources</phase>
                   <configuration>
-                     <npmRegistryURL>${customnpmRegistryURL}</npmRegistryURL>
+                     <npmRegistryURL>http://sodio.stratio.com/repository/publicnpm/</npmRegistryURL>
                      <arguments>install --no-optional --loglevel=error --depth=0</arguments>
                   </configuration>
                </execution>
@@ -96,11 +105,14 @@
                   </goals>
                   <phase>deploy</phase>
                   <configuration>
-                     <npmRegistryURL>http://sodio.stratio.com/repository/strationpmjs/</npmRegistryURL>
                      <arguments>publish</arguments>
                   </configuration>
                </execution>
             </executions>
+         </plugin>
+         <plugin>
+            <groupId>com.mycila</groupId>
+            <artifactId>license-maven-plugin</artifactId>
          </plugin>
       </plugins>
    </build>
@@ -110,7 +122,6 @@
          <properties>
             <customnodeDownloadRoot>${nodeURL}/node/</customnodeDownloadRoot>
             <customnpmDownloadRoot>${nodeURL}/npm/${npmVer}/</customnpmDownloadRoot>
-            <customnpmRegistryURL>http://sodio.stratio.com/repository/publicnpm/</customnpmRegistryURL>
          </properties>
       </profile>
    </profiles>

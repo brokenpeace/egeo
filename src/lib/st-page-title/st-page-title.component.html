@@ -1,12 +1,41 @@
+<!--
+
+    Copyright (C) 2016 Stratio (http://stratio.com)
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
 <div class="st-page-title sth-page-title">
    <st-button *ngIf="leftButton" text="Tool subtype4" typeClass="btnTool" subtypeClass="subtype4" qaTag="{{qaTag}}-left-button"
       leftIcon="{{leftButton}}" class="button-box sth-page-title-button-box" inputType="button" (click)="onClickedButton()">
-      </st-button>
-      <div class="main-title sth-page-title-main-title">
-         <span *ngIf="hasPreTitle()" class="sth-page-title-pre-title">{{preTitle}}: </span>
-         <span class="sth-page-title-title">{{title}}</span>
+   </st-button>
+   <div class="main-title sth-page-title-main-title">
+      <span *ngIf="hasPreTitle()" class="sth-page-title-pre-title">{{preTitle}}: </span>
+      <span *ngIf="!editable" class="sth-page-title-title">{{title}}</span>
+
+      <div class="editable-box sth-editable" *ngIf="editable">
+
+         <span class="error_text sth-error-text" *ngIf="errorMessage">{{errorMessage}}</span>
+
+         <span class="sth-page-title-title title" (click)="onClickEdit()" [ngClass]="{'sth-error': error}">
+          <input type="text" (keyup)="onEdit($event)" (focus)="onFocus($event)" (blur)="onBlur($event)" [(ngModel)]="title" #input StInputAdjustable placeholder="{{placeholder}}" [maxlength]="maxlength" [minlength]="minlength" [disabled]="disabled" [readOnly]="readOnly" />
+          <i *ngIf="!focus" class="button-edit sth-button-edit icon-edit"></i>
+        </span>
+
       </div>
-      <div>
-         <ng-content></ng-content>
-      </div>
+
+   </div>
+   <div>
+      <ng-content></ng-content>
+   </div>
 </div>

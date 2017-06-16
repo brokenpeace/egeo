@@ -1,9 +1,26 @@
+<!--
+
+    Copyright (C) 2016 Stratio (http://stratio.com)
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
 <st-form-label class="st-switch__label sth-switch__label" labelPosition="{{labelPosition}}" [label]="label"
                qaTag="{{qaTag}}-label"
                [contextualHelp]="contextualHelp"
                [status]="getLabelStatus()">
    <div class="st-switch__toggle sth-switch__toggle" [attr.id]="qaTag"
-        [ngClass]="{ 'st-switch--disabled': disabled, 'st-switch--on': _stModel, 'st-switch--off': !_stModel, 'st-switch__label--top': labelPosition === 'top'}">
+        [ngClass]="{ 'st-switch--disabled': disabled, 'st-switch--on': stModel, 'st-switch--off': !stModel, 'st-switch__label--top': labelPosition === 'top'}">
       <div class="st-switch__box sth-switch__box">
          <span class="st-switch__circle sth-switch__circle"></span>
       </div>

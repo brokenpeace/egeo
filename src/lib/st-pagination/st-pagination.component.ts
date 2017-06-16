@@ -1,4 +1,28 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+/*
+ * Copyright (C) 2016 Stratio (http://stratio.com)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+import {
+   ChangeDetectionStrategy,
+   ChangeDetectorRef,
+   Component,
+   EventEmitter,
+   Input,
+   OnChanges,
+   OnInit,
+   Output
+} from '@angular/core';
 
 import { StDropDownMenuItem } from '../st-dropdown-menu/st-dropdown-menu.interface';
 import { Paginate, PaginateTexts } from './st-pagination.interface';
@@ -10,7 +34,6 @@ import { Paginate, PaginateTexts } from './st-pagination.interface';
    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StPaginationComponent implements OnInit, OnChanges {
-
    @Input() total: number;
    @Input() perPage: number = 20;
    @Input() perPageOptions: number[] = [20, 50, 100];
@@ -29,9 +52,7 @@ export class StPaginationComponent implements OnInit, OnChanges {
    public lastItem: number;
    public items: StDropDownMenuItem[] = [];
 
-   constructor(
-      private cd: ChangeDetectorRef
-   ) {
+   constructor(private cd: ChangeDetectorRef) {
       if (!this.label) {
          this.label = {
             display: 'Display',
@@ -57,22 +78,22 @@ export class StPaginationComponent implements OnInit, OnChanges {
       if (values.currentPage || values.perPage) {
          this.updatePages(false);
       }
-
    }
 
    generateItems(): void {
       this.items = [];
-      this.perPageOptions.forEach((option) => {
+      this.perPageOptions.forEach(option => {
          this.items.push(this.generateItem(option));
       });
    }
 
    generateItem(n: number): StDropDownMenuItem {
-      return ({
-         label: `${this.label.display} ${n} ${this.label.element} ${this.label.perPage}`,
+      return {
+         label: `${this.label.display} ${n} ${this.label.element} ${this.label
+            .perPage}`,
          value: n,
          selected: this.checkSelected(n)
-      });
+      };
    }
 
    checkSelected(value: number): boolean {
@@ -84,7 +105,6 @@ export class StPaginationComponent implements OnInit, OnChanges {
    }
 
    showItemsPerPage(): boolean {
-
       if (this.showPerPage) {
          return true;
       }
@@ -111,8 +131,7 @@ export class StPaginationComponent implements OnInit, OnChanges {
    }
 
    updatePages(emit: boolean = true): void {
-
-      this.lastItem = (this.perPage * this.currentPage);
+      this.lastItem = this.perPage * this.currentPage;
 
       if (this.currentPage === 1) {
          this.firstItem = this.currentPage;
@@ -150,5 +169,4 @@ export class StPaginationComponent implements OnInit, OnChanges {
          return 'themeA';
       }
    }
-
 }

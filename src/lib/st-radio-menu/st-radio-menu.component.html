@@ -1,16 +1,31 @@
-<section class="st-radio-menu">
-  <ul class="st-radio-menu__list">
-    <li *ngFor="let option of options; let i = index;" class="st-radio-menu__option">
+<!--
 
-      <div class="st-radio-menu__option" (click)="activateOption(option)"
-           [ngClass]="{'st-radio-menu__option--active': isActive(option),
-           'st-radio-menu__option--no-active': !isActive(option) && activeOption}"
-           [attr.id]="qaTag + '-option-' + i">
-        <input type="radio" name="{{option.value}}"
-               [value]="option"
-               [(ngModel)]="activeOption"
-        ><span class="st-radio-menu__option-text">{{ option.label }}</span>
-      </div>
-    </li>
-  </ul>
+    Copyright (C) 2016 Stratio (http://stratio.com)
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<section class="st-radio-menu sth-radio-menu">
+   <ul class="st-radio-menu__list">
+      <li *ngFor="let option of options; let i = index;" class="st-radio-menu__option">
+
+         <div class="st-radio-menu__option sth-radio-menu-option" (click)="activateOption(option)" [ngClass]="{'active': isActive(option),
+           'no-active': !isActive(option) && activeOption}" [attr.id]="qaTag + '-option-' + i">
+
+            <st-radio [name]="option.label" [value]="option.value" [checked]="checkedOption(option)">
+               <span class="st-radio-menu__option-text">{{ option.label }}</span>
+            </st-radio>
+         </div>
+      </li>
+   </ul>
 </section>

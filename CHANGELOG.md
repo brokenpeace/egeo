@@ -1,8 +1,14 @@
 # Changelog
 
-## 2.3.0 (upcoming)
+## 2.4.0 (upcoming)
+
+* Pending changelog
+
+## 2.3.0 (June 13, 2017)
 
 * Bugfix st-switch component emits event twice
+* New component st-combobox
+* Add new feature in st-page-title: Editable Title
 
 ## 2.2.2 (June 06, 2017)
 

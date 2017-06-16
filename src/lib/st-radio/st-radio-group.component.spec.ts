@@ -1,3 +1,18 @@
+/*
+ * Copyright (C) 2016 Stratio (http://stratio.com)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 import { Component, DebugElement } from '@angular/core';
 import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { FormControl, FormsModule, NgControl, NgModel, ReactiveFormsModule } from '@angular/forms';
@@ -7,6 +22,24 @@ import { SelectOneDispatcher } from '../utils/unique-dispatcher';
 import { StRadioComponent, StRadioGroupComponent } from './st-radio.component';
 
 describe('StRadioGroup', () => {
+
+   @Component({
+      template: `
+            <st-radio-group [(ngModel)]="modelValue" (change)="lastEvent = $event">
+                  <st-radio *ngFor="let item of items" [value]="item.value">
+                  {{item.label}}
+                  </st-radio>
+            </st-radio-group>
+      `
+   })
+   class RadioGroupWithModel {
+      modelValue: string;
+      items: any[] = [
+         { label: 'example1', value: '1' },
+         { label: 'example2', value: '2' },
+         { label: 'example3', value: '3' }
+      ];
+   }
 
    let fixture: ComponentFixture<RadioGroupWithModel>;
    let compiled: any;
@@ -86,29 +119,22 @@ describe('StRadioGroup', () => {
 
       expect(groupNgControl.touched).toBe(true);
    });
-
-   @Component({
-      template: `
-            <st-radio-group [(ngModel)]="modelValue" (change)="lastEvent = $event">
-                  <st-radio *ngFor="let item of items" [value]="item.value">
-                  {{item.label}}
-                  </st-radio>
-            </st-radio-group>
-      `
-   })
-   class RadioGroupWithModel {
-      modelValue: string;
-      items: any[] = [
-         { label: 'example1', value: '1' },
-         { label: 'example2', value: '2' },
-         { label: 'example3', value: '3' }
-      ];
-   }
-
 });
 
 
 describe('StRadioGroup with FormControl', () => {
+
+    // tslint:disable-next-line:max-classes-per-file
+   @Component({
+      template: `
+         <st-radio-group [formControl]="formControl">
+            <st-radio value="1">One</st-radio>
+         </st-radio-group>
+      `
+   })
+   class RadioGroup {
+      formControl: FormControl = new FormControl();
+   }
 
    let component: RadioGroup;
    let groupDebugElement: DebugElement;
@@ -140,19 +166,6 @@ describe('StRadioGroup with FormControl', () => {
       component = fixture.componentInstance;
       compiled = fixture.debugElement.nativeElement;
    });
-
-
-   // tslint:disable-next-line:max-classes-per-file
-   @Component({
-      template: `
-         <st-radio-group [formControl]="formControl">
-            <st-radio value="1">One</st-radio>
-         </st-radio-group>
-      `
-   })
-   class RadioGroup {
-      formControl: FormControl = new FormControl();
-   }
 
    describe('When form control marked as disabled', () => {
 
