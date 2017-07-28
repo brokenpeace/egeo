@@ -18,15 +18,41 @@
 
 const path = require('path');
 
+function parseTestPattern(argv) {
+   var found = false;
+   var pattern = argv.map(function(v) {
+      if (found) {
+         return v;
+      }
+      if (v === '--') {
+         found = true;
+      }
+   }).
+   filter(function(a) {
+      return a
+   }).
+   join(' ');
+   return pattern ? ['--grep', pattern] : [];
+}
+
+var args = parseTestPattern(process.argv);
+
 module.exports = function(config) {
    config.set({
       basePath: path.join(__dirname, '..'),
-      files: [
-         { pattern: 'test/base.spec.ts' },
-         { pattern: 'src/lib/**/*.+(ts|html)' }
+      files: [{
+            pattern: 'test/base.spec.ts'
+         },
+         {
+            pattern: 'src/lib/**/*.+(ts|html)'
+         }
       ],
+      client: {
+         args: args
+      },
       frameworks: ['jasmine', 'karma-typescript'],
       karmaTypescriptConfig: {
+         tsconfig: 'src/lib/tsconfig-test.json',
          bundlerOptions: {
             directories: [
                path.resolve(process.cwd(), 'node_modules'),
@@ -37,17 +63,16 @@ module.exports = function(config) {
                require("karma-typescript-angular2-transform")
             ]
          },
-         compilerOptions: {
-            baseUrl: path.resolve(process.cwd(), 'src/lib'),
-            lib: ["ES2015", "DOM"],
-            types: ['jasmine'],
-            exclude: ['dist', 'tools']
-         },
          coverageOptions: {
-            exclude: /(\.d|\.spec|\.module|barrels|public_api)\.ts/i,
+            exclude: /(\.d\.ts|\.spec\.ts|\.module\.ts|\.routing\.ts|barrels\.ts|public_api\.ts|demo)/i,
             instrumentation: true
          },
          reports: {
+            'cobertura': {
+               'directory': 'target',
+               'subdirectory': '.',
+               'filename': 'coverage.xml'
+            },
             'text-summary': null,
             'html': './target/coverage/html',
             'json': './target/coverage',
@@ -60,6 +85,9 @@ module.exports = function(config) {
          "test/**/*.ts": ["karma-typescript"]
       },
       reporters: ['mocha', 'karma-typescript'],
+      mochaReporter: {
+         ignoreSkipped: args && args.length > 0
+      },
 
       logLevel: config.LOG_INFO,
       autoWatch: false,

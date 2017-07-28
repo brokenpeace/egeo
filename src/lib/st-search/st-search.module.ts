@@ -17,10 +17,11 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { StDropdownMenuModule } from '../st-dropdown-menu/st-dropdown-menu.module';
 import { StSearchComponent } from './st-search.component';
 
 @NgModule({
-   imports: [CommonModule, FormsModule, ReactiveFormsModule],
+   imports: [CommonModule, FormsModule, ReactiveFormsModule, StDropdownMenuModule],
    declarations: [StSearchComponent],
    exports: [StSearchComponent]
 })

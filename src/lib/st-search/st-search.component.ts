@@ -13,11 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
+import {
+   ChangeDetectionStrategy,
+   Component,
+   EventEmitter,
+   Input,
+   OnChanges,
+   OnDestroy,
+   OnInit,
+   Output,
+   SimpleChanges,
+   Renderer,
+   ChangeDetectorRef,
+   ViewChild,
+   ElementRef
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
 
 import 'rxjs/add/operator/debounceTime';
+
+import { StDropDownMenuItem } from '../st-dropdown-menu/st-dropdown-menu.interface';
+import { EventWindowManager } from '../utils/event-window-manager';
 
 @Component({
    selector: 'st-search',
@@ -25,30 +42,68 @@ import 'rxjs/add/operator/debounceTime';
    styleUrls: ['./st-search.component.scss'],
    changeDetection: ChangeDetectionStrategy.OnPush
 })
-
-export class StSearchComponent implements OnChanges, OnDestroy, OnInit {
+export class StSearchComponent extends EventWindowManager implements OnChanges, OnDestroy, OnInit {
    @Input() debounce: number = 0;
-   @Input() hasClearButton: boolean = false;
    @Input() liveSearch: boolean = true;
    @Input() minLength: number = 0;
    @Input() placeholder: string = 'Search';
    @Input() qaTag: string;
-   @Input() searchOnlyOnClick: boolean = false;
    @Input() value: string;
    @Input() disabled: boolean = false;
+
+   @Input() withAutocomplete: boolean = false;
+   @Input() autocompleteList: StDropDownMenuItem[] = [];
+   @Input() emptyAutocompleteListMessage: string = '';
 
    @Output() search: EventEmitter<string> = new EventEmitter<string>();
 
    public searchBox: FormControl = new FormControl();
-   public focus: Boolean;
+   public showClear: boolean;
 
-   private sub: Subscription | undefined = undefined;
+   private subscriptionSearch: Subscription | undefined = undefined;
+   private subscriptionSearchClearButton: Subscription | undefined = undefined;
    private lastEmited: string | undefined = undefined;
 
-   public launchSearch(force: boolean = false, isFromButton: boolean = false): void {
-      if (this.canSearch(isFromButton) && this.isDefined() && !this.disabled && this.isEqualPrevious(force) && this.checkMins()) {
-         this.lastEmited = this.searchBox.value;
-         this.search.emit(this.lastEmited);
+   constructor(
+      private _render: Renderer,
+      private cd: ChangeDetectorRef,
+      @ViewChild('buttonId') public buttonElement: ElementRef) {
+      super(_render, cd, buttonElement);
+   }
+
+   public ngOnInit(): void {
+      if (this.value) {
+         this.searchBox.setValue(this.value);
+      }
+      // Show clear button if have text
+      this.subscriptionSearchClearButton = this.searchBox.valueChanges.subscribe((val) => this.showClear = (val && val.length > 0));
+      this.checkDisabled();
+      this.manageSubscription();
+   }
+
+   public ngOnChanges(changes: SimpleChanges): void {
+      this.checkDebounceChange(changes);
+      this.checkValueChange(changes);
+      this.checkDisableChange(changes);
+      this.checkAutocompleteMenuChange(changes);
+   }
+
+   public ngOnDestroy(): void {
+      if (this.subscriptionSearch !== undefined) {
+         this.subscriptionSearch.unsubscribe();
+      }
+      if (this.subscriptionSearchClearButton !== undefined) {
+         this.subscriptionSearchClearButton.unsubscribe();
+      }
+      this.closeElement();
+   }
+
+   public launchSearch(force: boolean): void {
+      if (this.canSearch(force)) {
+         this.showAutocompleteMenu();
+         this.emitValue(force);
+      } else {
+         this.closeElement();
       }
    }
 
@@ -59,40 +114,37 @@ export class StSearchComponent implements OnChanges, OnDestroy, OnInit {
       }
    }
 
-   public onFocus(event: MouseEvent): void {
-      this.focus = true;
-   }
-
-   public onBlur(event: MouseEvent): void {
-      this.focus = false;
+   public changeOption(item: StDropDownMenuItem): void {
+      if (item && item.label) {
+         this.subscriptionSearch.unsubscribe();
+         this.searchBox.setValue(item.label);
+         this.cd.markForCheck();
+         this.closeElement();
+         this.emitValue(true);
+         this.manageSubscription();
+      }
    }
 
    public clearInput(): void {
       this.searchBox.setValue('');
-      this.focus = false;
+      this.closeElement();
    }
 
-   public ngOnChanges(changes: SimpleChanges): void {
-      this.manageSubscription();
-      this.updateValue(changes);
-      if (changes.disabled) {
-         this.checkDisabled();
+   private emitValue(force: boolean): void {
+      if (this.isEqualPrevious(force)) {
+         this.lastEmited = this.searchBox.value;
+         this.search.emit(this.lastEmited);
       }
    }
 
-   public ngOnInit(): void {
-
-      if (this.value) {
-         this.searchBox.setValue(this.value);
+   private showAutocompleteMenu(): void {
+      if (this.withAutocomplete && !this.isActive) {
+         this.openElement();
       }
-      this.checkDisabled();
-      this.manageSubscription();
-   }
-
-   public ngOnDestroy(): void {
-      if (this.sub !== undefined) {
-         this.sub.unsubscribe();
+      if (this.searchBox.value === '') {
+         this.closeElement();
       }
+      this.cd.markForCheck();
    }
 
    private checkDisabled(): void {
@@ -103,8 +155,8 @@ export class StSearchComponent implements OnChanges, OnDestroy, OnInit {
       }
    }
 
-   private canSearch(isFromButton: boolean): boolean {
-      return !this.searchOnlyOnClick || (this.searchOnlyOnClick && isFromButton);
+   private canSearch(force: boolean): boolean {
+      return this.isDefined() && !this.disabled && this.checkMins();
    }
 
    private isDefined(): boolean {
@@ -120,22 +172,43 @@ export class StSearchComponent implements OnChanges, OnDestroy, OnInit {
       return this.lastEmited !== this.searchBox.value || force;
    }
 
-   private updateValue(changes: SimpleChanges): void {
-      let prop: string = 'value';
-      if (changes[prop]) {
-         this.searchBox.setValue(changes[prop].currentValue);
+   private checkValueChange(changes: SimpleChanges): void {
+      if (changes && changes.value) {
+         if (this.subscriptionSearch) {
+            this.subscriptionSearch.unsubscribe();
+         }
+         this.searchBox.setValue(changes.value.currentValue);
+         this.manageSubscription();
+      }
+   }
+
+   private checkDebounceChange(changes: SimpleChanges): void {
+      if (changes && changes.debounce) {
+         this.manageSubscription();
+      }
+   }
+
+   private checkDisableChange(changes: SimpleChanges): void {
+      if (changes && changes.disabled) {
+         this.checkDisabled();
+      }
+   }
+
+   private checkAutocompleteMenuChange(changes: SimpleChanges): void {
+      if (changes && changes.autocompleteList) {
+         this.cd.markForCheck();
       }
    }
 
    private manageSubscription(): void {
-      if (this.sub !== undefined) {
-         this.sub.unsubscribe();
+      if (this.subscriptionSearch !== undefined) {
+         this.subscriptionSearch.unsubscribe();
       }
       if (this.liveSearch) {
-         this.sub = this.searchBox
+         this.subscriptionSearch = this.searchBox
             .valueChanges
             .debounceTime(this.debounce)
-            .subscribe((event) => this.launchSearch());
+            .subscribe((event) => this.launchSearch(false));
       }
    }
 }

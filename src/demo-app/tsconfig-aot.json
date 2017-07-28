@@ -1,0 +1,21 @@
+{
+   "extends": "./tsconfig-build",
+   "compilerOptions": {
+      "experimentalDecorators": true,
+      "noUnusedParameters": false,
+      "outDir": ".",
+      "paths": {
+         "@stratio/egeo": ["./egeo"],
+         "@stratio/egeo-demo": ["../egeo-demo/public_api"]
+      }
+   },
+   "files": [
+      "./custom-typings.d.ts",
+      "./polyfills.ts",
+      "./demo-app-module.ts",
+      "./main.aot.ts"
+   ],
+   "angularCompilerOptions": {
+      "skipTemplateCodegen": false
+   }
+}

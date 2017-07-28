@@ -1,8 +1,91 @@
 # Changelog
 
-## 2.4.0 (upcoming)
+## 3.0.0 (upcoming)
 
-* Pending changelog
+**Fixed bugs:**
+
+* st-two-list-selection: Fix when list is empty, height not showing correctly
+* st-item-list: Add item list to egeo module
+* st-dropdown: Fix inputs immutable 
+
+**Breaking changes:**
+
+* st-combobox: Renamed to st-select
+* st-search: Remove searchOnlyOnClick and hasClearButton parameters
+* st-breadcrumbs: Rename output event changeOption to select
+
+**New features:**
+* st-toggle-buttons: Add an optional id to the interface
+* st-breadcrumbs: Add component st-breadcrumbs item, add Ng-Content option
+
+## 2.5.0 (July 13, 2017)
+
+**Fixed bugs:**
+
+* Fix styles on st-input
+* Fix styles on st-vertical-tabs
+* Fix styles on st-horizontal-tabs
+
+**New features:**
+
+* New component st-items-list
+* New component st-tree
+* New component st-alerts
+* Add number inputs and min/max validations
+
+## 2.4.4 (July 13, 2017)
+
+**Fixed bugs:**
+
+* Add missing tslib dependency
+
+## 2.4.3 (July 11, 2017)
+
+**Fixed bugs:**
+
+* Fix when resolve not found any translateable element and pass empty array to translate
+
+## 2.4.2 (July 05, 2017)
+
+**Fixed bugs:**
+
+* Fix Search with autocomplete emit twice
+
+## 2.4.1 (June 30, 2017)
+
+**Fixed bugs:**
+
+* Fix popper imports
+
+## 2.4.0 (June 29, 2017)
+
+**Fixed bugs:**
+
+* Fix of left button position in page title
+* Fix a wrong overflow of dropdown-menu items in firefox
+
+**New features:**
+
+* Create st-object-to-array pipe to iterate over an object in a template
+* Add to dropdown-menu option to be always floating
+* Add to dropdown-menu to resize update when resize the main window.
+* New component st-tip
+* New component st-help
+* Add option to autocomplete in search
+
+**Deprecated:**
+
+* st-search: hasClearButton, that will be removed in a future release
+* st-search: searchOnlyOnClick, that will be removed in a future release
+
+## 2.3.2 (June 21, 2017)
+
+* Fix st-comobobox validations
+
+## 2.3.1 (June 19, 2017)
+
+* Fix st-two-list styles
+* Fix AoT compilation
 
 ## 2.3.0 (June 13, 2017)
 

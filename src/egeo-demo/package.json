@@ -1,0 +1,40 @@
+{
+   "name": "@stratio/egeo-demo",
+   "version": "0.0.0-PLACEHOLDER",
+   "description": "Stratio egeo demo library based in egeo library",
+   "author": "Stratio",
+   "main": "./bundles/egeo-demo.umd.js",
+   "module": "./@stratio/egeo-demo.es5.js",
+   "es2015": "./@stratio/egeo-demo.js",
+   "typings": "./egeo-demo.d.ts",
+   "repository": {
+      "type": "git",
+      "url": "https://github.com/Stratio/egeo.git"
+   },
+   "keywords": [
+      "angular",
+      "egeo",
+      "egeo-demo",
+      "stratio",
+      "components",
+      "rollup",
+      "karma",
+      "gulp",
+      "webpack"
+   ],
+   "license": "MIT",
+   "bugs": {
+      "url": "https://github.com/Stratio/egeo/issues"
+   },
+   "homepage": "https://github.com/Stratio/egeo#readme",
+   "peerDependencies": {
+      "@angular/common": "~4.2.0",
+      "@angular/core": "~4.2.0",
+      "@angular/forms": "~4.2.0",
+      "@angular/http": "~4.2.0",
+      "@angular/platform-browser-dynamic": "~4.2.0",
+      "@angular/router": "~4.2.0",
+      "@stratio/egeo": "~2.5.0",
+      "@stratio/egeo-theme": "~0.13.0"
+   }
+}

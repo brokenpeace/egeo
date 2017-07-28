@@ -11,7 +11,7 @@
 
    <groupId>com.stratio.egeo</groupId>
    <artifactId>egeo</artifactId>
-   <version>2.4.0-SNAPSHOT</version>
+   <version>3.0.0-SNAPSHOT</version>
    <name>Egeo</name>
    <inceptionYear>2016</inceptionYear>
 
@@ -78,6 +78,17 @@
                   </configuration>
                </execution>
                <execution>
+                  <id>npm lint</id>
+                  <goals>
+                     <goal>npm</goal>
+                  </goals>
+                  <phase>test</phase>
+                  <configuration>
+                     <skipTests>${skipUTs}</skipTests>
+                     <arguments>run-script lint</arguments>
+                  </configuration>
+               </execution>
+               <execution>
                   <id>npm test</id>
                   <goals>
                      <goal>npm</goal>
@@ -105,7 +116,7 @@
                   </goals>
                   <phase>deploy</phase>
                   <configuration>
-                     <arguments>publish</arguments>
+                     <arguments>run-script release</arguments>
                   </configuration>
                </execution>
             </executions>

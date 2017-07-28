@@ -17,10 +17,11 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import { StFilterList } from './search-filter.pipe';
+import {StObjectToArrayPipe} from './st-object-to-array/st-object-to-array.pipe';
 
 @NgModule({
    imports: [CommonModule],
-   declarations: [StFilterList],
-   exports: [StFilterList]
+   declarations: [StFilterList, StObjectToArrayPipe],
+   exports: [StFilterList, StObjectToArrayPipe]
 })
 export class PipesModule { }
