@@ -13,14 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { Component } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 
-export { StAlertsDemoModule } from './st-alert-demo/st-alerts-demo.module';
-export { StFormDemoModule } from './st-form-demo/st-form-demo.module';
-export {
-   StTwoListSelectionDemoModule
-} from './st-two-list-selection-demo/st-two-list-selection-demo.module';
-export { StTooltipDemoModule } from './st-tooltip-demo/st-tooltip-demo.module';
-export { StSwitchDemoModule } from './st-switch-demo/st-switch-demo.module';
-export {
-   StBreadcrumbsDemoModule
-} from './st-breadcrumbs-demo/st-breadcrumbs-demo.module';
+import { JSON_SCHEMA } from './json-schema';
+
+@Component({
+   selector: 'st-form-demo',
+   templateUrl: 'st-form-demo.html'
+})
+export class StFormDemoComponent {
+   public jsonSchema: any;
+   public form: FormGroup;
+
+   constructor() {
+      this.jsonSchema = JSON_SCHEMA;
+      this.form = new FormGroup({});
+   }
+
+
+   public showFormStatus(): void {
+      console.log(this.form);
+   }
+}
